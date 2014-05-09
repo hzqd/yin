@@ -188,7 +188,7 @@ public class PreParser {
         }
 
 
-        // find consequtive token
+        // find consecutive token
         int start = offset;
         int startLine = line;
         int startCol = col;
