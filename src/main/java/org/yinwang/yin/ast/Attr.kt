@@ -61,7 +61,7 @@ class Attr(var value: Node, var attr: Name, file: String, start: Int, end: Int, 
 
 
     override fun toString(): String {
-        return value.toString() + "." + attr
+        return "$value.$attr"
     }
 
 }

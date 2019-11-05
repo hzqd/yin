@@ -19,7 +19,11 @@ object Type {
                 }
             }
             return true
-        } else return (type2 as? UnionType)?.values?.contains(type1) ?: (type1 == type2)
+        } else return if (type2 is UnionType) {
+            type2.values.contains(type1)
+        } else {
+            type1 == type2
+        }
     }
 
 }

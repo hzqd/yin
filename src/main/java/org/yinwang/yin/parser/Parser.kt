@@ -136,7 +136,7 @@ object Parser {
         // construct parameter list
         val preParams = elements[1]
         if (preParams !is Tuple) {
-            throw ParserException("incorrect format of parameters: " + preParams.toString(), preParams)
+            throw ParserException("incorrect format of parameters: $preParams", preParams)
         }
 
         // parse the parameters, test whether it's all names or all tuples
@@ -153,7 +153,7 @@ object Parser {
                 hasTuple = true
                 val argElements = p.elements
                 if (argElements.size == 0) {
-                    throw ParserException("illegal argument format: " + p.toString(), p)
+                    throw ParserException("illegal argument format: $p", p)
                 }
                 if (argElements[0] !is Name) {
                     throw ParserException("illegal argument name : " + argElements[0], p)
@@ -168,7 +168,7 @@ object Parser {
         }
 
         if (hasName && hasTuple) {
-            throw ParserException("parameters must be either all names or all tuples: " + preParams.toString(), preParams)
+            throw ParserException("parameters must be either all names or all tuples: $preParams", preParams)
         }
 
         val properties: Scope?
@@ -203,7 +203,7 @@ object Parser {
         val fields: List<Node>
 
         if (name !is Name) {
-            throw ParserException("syntax error in record name: " + name.toString(), name)
+            throw ParserException("syntax error in record name: $name", name)
         }
 
         // check if there are parents (record A (B C) ...)
@@ -253,7 +253,7 @@ object Parser {
     fun parseMap(prenodes: List<Node>): Map<String, Node> {
         val ret = LinkedHashMap<String, Node>()
         if (prenodes.size % 2 != 0) {
-            throw ParserException("must be of the form (:key1 value1 :key2 value2), but got: " + prenodes.toString(), prenodes[0])
+            throw ParserException("must be of the form (:key1 value1 :key2 value2), but got: $prenodes", prenodes[0])
         }
 
         var i = 0
@@ -261,7 +261,7 @@ object Parser {
             val key = prenodes[i]
             val value = prenodes[i + 1]
             if (key !is Keyword) {
-                throw ParserException("key must be a keyword, but got: " + key.toString(), key)
+                throw ParserException("key must be a keyword, but got: $key", key)
             }
             ret[key.id] = value
             i += 2
@@ -277,21 +277,21 @@ object Parser {
             if (!(field is Tuple &&
                             delimType(field.open, Constants.SQUARE_BEGIN) &&
                             field.elements.size >= 2)) {
-                throw ParserException("incorrect form of descriptor: " + field.toString(), field)
+                throw ParserException("incorrect form of descriptor: $field", field)
             } else {
                 val elements = parseList(field.elements)
                 val nameNode = elements[0]
                 if (nameNode !is Name) {
-                    throw ParserException("expect a name, but got: " + nameNode.toString(), nameNode)
+                    throw ParserException("expect a name, but got: $nameNode", nameNode)
                 }
                 val id = nameNode.id
                 if (properties.containsKey(id)) {
-                    throw ParserException("duplicated name: " + nameNode.toString(), nameNode)
+                    throw ParserException("duplicated name: $nameNode", nameNode)
                 }
 
                 val typeNode = elements[1]
                 if (typeNode !is Name) {
-                    throw ParserException("type must be a name, but got: " + typeNode.toString(), typeNode)
+                    throw ParserException("type must be a name, but got: $typeNode", typeNode)
                 }
                 properties.put(id, "type", typeNode)
 

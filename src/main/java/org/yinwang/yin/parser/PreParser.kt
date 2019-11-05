@@ -53,7 +53,7 @@ class PreParser(file: String) {
             next = nextNode1(depth + 1)
             while (!Delimeter.match(first, next)) {
                 if (next == null) {
-                    throw ParserException("unclosed delimeter till end of file: " + first.toString(), first)
+                    throw ParserException("unclosed delimeter till end of file: $first", first)
                 } else if (Delimeter.isClose(next)) {
                     throw ParserException("unmatched closing delimeter: " +
                             next.toString() + " does not close " + first.toString(), next)
